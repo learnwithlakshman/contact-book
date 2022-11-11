@@ -28,10 +28,15 @@ public class ContactController {
     return ResponseEntity.ok(contactService.getContacts());
   }
 
+  @GetMapping("/search/{str}")
+  public ResponseEntity<List<Contact>> getContacts(@PathVariable("str")String str) {
+    return ResponseEntity.ok(contactService.search(str));
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<AppResponse> deleteContact(@PathVariable("id") String id) {
        boolean isDeleted= contactService.deleteContact(UUID.fromString(id));
-       String message = null;
+       String message;
        if(isDeleted){
           message = "Contact deleted successfully";
           AppResponse obj = AppResponse.builder().message(message).status(HttpStatus.OK).date(LocalDateTime.now()).build();

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,6 +27,13 @@ public class ContactServiceInMemoryImpl implements  ContactService {
   public List<Contact> getContacts() {
     List<Contact> list = storageService.list();
     log.info("Total {} contacts found",list.size());
+    return list;
+  }
+
+  @Override
+  public List<Contact> search(String str) {
+    List<Contact> list = storageService.list().stream().filter(c->c.getName().toLowerCase().contains(str.toLowerCase())).collect(Collectors.toList());
+    log.info("Search string  {}  has {} matches",str,list.size());
     return list;
   }
 
