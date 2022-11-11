@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class StorageService {
-  private Map<UUID, Contact> map;
+  private final Map<UUID, Contact> map;
 
   public StorageService() {
     map = new HashMap<>();
@@ -35,23 +34,19 @@ public class StorageService {
   private boolean checkMobileNumberExists(String mobile) {
     return map.values()
         .stream()
-        .filter(c -> c.getMobile().equals(mobile))
-        .findAny()
-        .isPresent();
+        .anyMatch(c -> c.getMobile().equals(mobile));
   }
 
   public List<Contact> list() {
-    if (map.values() == null) {
-      return Collections.emptyList();
-    }
-    return map.values().stream().collect(Collectors.toList());
+    if (map.values().isEmpty()) return Collections.emptyList();
+    return new ArrayList<>(map.values());
   }
 
   public void remove(UUID id) {
     if (map.get(id) != null) {
       map.remove(id);
     } else {
-      throw new ContactNotFoundException("Contact with given id:" + id + " is not found");
+      throw new ContactNotFoundException("Contact with the given id " + id + " is not found");
     }
   }
 
