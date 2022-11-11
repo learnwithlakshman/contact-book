@@ -9,5 +9,7 @@ public interface ContactService {
 
       Contact addContact(Contact contact);
       List<Contact> getContacts();
+      List<Contact> search(String str);
+
       boolean deleteContact(UUID id);
 }
