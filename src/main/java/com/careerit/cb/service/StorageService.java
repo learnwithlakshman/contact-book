@@ -4,11 +4,12 @@ import com.careerit.cb.domain.Contact;
 import com.careerit.cb.exception.ContactAlreadyExistsException;
 import com.careerit.cb.exception.ContactNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.*;
 
-@Component
+@Service
 public class StorageService {
   private final Map<UUID, Contact> map;
 

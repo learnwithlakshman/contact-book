@@ -3,6 +3,10 @@ package com.careerit.cb.web;
 import com.careerit.cb.domain.Contact;
 import com.careerit.cb.service.ContactService;
 import com.careerit.cb.util.AppResponse;
+import com.careerit.cb.util.AppUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +18,16 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/contact")
+@Slf4j
 public class ContactController {
   @Autowired
   private ContactService contactService;
 
   @PostMapping
   public ResponseEntity<Contact> addContact(@RequestBody Contact contact) {
-      return ResponseEntity.ok(contactService.addContact(contact));
+    contact = contactService.addContact(contact);
+    log.info("Contact {}", AppUtil.convertString(contact) );
+    return ResponseEntity.ok(contact);
   }
 
   @GetMapping("/all")
